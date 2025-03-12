@@ -1,65 +1,72 @@
-import { useEffect, useState } from "react"
-import api from '../api'
-import Task from '../components/Task'
-import '../styles/Home.module.css'
+import { useEffect, useState } from 'react';
+import api from '../api';
+import Task from '../components/Task';
+import SideBar from "../components/SideBar";
+import NewTaskForm from '../components/NewTaskForm';
 
-function Home () {
-    const [tasks, setTasks] = useState([])
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
+function Home() {
+    const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        getTasks()
-    }, [])
+        getTasks();
+    }, []);
 
     const getTasks = async () => {
         try {
-            const res = await api.get('/api/tasks/')
-            setTasks(res.data)
-            console.log(res.data)
+            const res = await api.get('/api/tasks/');
+            setTasks(res.data);
+            console.log(res.data);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
-    const addTask = async(e) => {
-        e.preventDefault()
+    const addTask = async ({ title, content }) => {
         try {
-            const res = await api.post('/api/tasks/', {title, content})
-            setTasks([...tasks, res.data])
-            setTitle('')
-            setContent('')
+            const res = await api.post('/api/tasks/', { title, content });
+            setTasks([...tasks, res.data]);
         } catch (error) {
-            alert('Something went wrong...')
-            console.log(error)
+            alert('Something went wrong...');
+            console.log(error);
         }
-    }
+    };
 
-    const handleDelete = async(id) => {
+    const handleDelete = async (id) => {
         try {
-            await api.delete(`/api/tasks/delete/${id}/`)
-            setTasks(tasks.filter(task => task.id !== id))
+            await api.delete(`/api/tasks/delete/${id}/`);
+            setTasks(tasks.filter(task => task.id !== id));
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
+
+    const handleUpdate = async (id, updatedTask) => {
+        try {
+            const res = await api.put(`/api/tasks/update/${id}/`, updatedTask);
+            setTasks(tasks.map(task => (task.id === id ? res.data : task)));
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
-        <div className="wrapper">
-            <form onSubmit={addTask} className="form-container">
-                <input type="text" className="form-input" value={title} onChange={(e) => setTitle(e.target.value)} />
-                <input type="text" className="form-input"  value={content} onChange={(e) => setContent(e.target.value)}/>
-                <button className="submit-button" type="submit">
-                    Create
-                </button>
-            </form>
-        </div>
-        <div>
-            {tasks.map((task) => <Task task={task} onDelete={handleDelete} key={task.id} />)}
-        </div>
+            <div>
+                {/* <SideBar /> */}
+            </div>
+            <NewTaskForm onSubmit={addTask} />
+            <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-md">
+                {tasks.map((task) => (
+                    <Task
+                        key={task.id}
+                        task={task}
+                        onDelete={handleDelete}
+                        onUpdate={handleUpdate}
+                    />
+                ))}
+            </div>
         </>
-    )
+    );
 }
 
-export default Home
+export default Home;
