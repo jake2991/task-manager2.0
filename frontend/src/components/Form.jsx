@@ -34,14 +34,18 @@ function Form({route, method}) {
 
     return (
         <>
-        <form onSubmit={handleSubmit} className="form-container">
-            <h1>{name}</h1>
-            <input type="text" className="form-input" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" className="form-input" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className="form-button" type="submit" disabled={loading}>
-                {loading ? 'Submitting' : name}
-            </button>
-        </form>
+        <div className="">
+            <div className="">
+                <h2 className="">{name}</h2>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Submitting...' : name}
+                    </button>
+                </form>
+            </div>
+        </div>
         </>
     )
 }

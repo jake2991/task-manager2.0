@@ -5,14 +5,14 @@ import Login from "./pages/Login"
 import Home from "./pages/Home"
 import NotFound from './pages/NotFound'
 import Register from "./pages/Register"
+import Logout from "./pages/Logout"
+
+
 
 
 function App() {
 
-  function Logout() {
-    localStorage.clear()
-    return <Navigate to={'/logout/'}/>
-  }
+
 
   function RegisterAndLogout(){
     localStorage.clear()
@@ -33,6 +33,7 @@ function App() {
             }/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<RegisterAndLogout/>}/>
+            <Route path="/logout" element={<Logout/>}/>
             <Route path="*" element={<NotFound/>}/>
           </Routes>
         </BrowserRouter>

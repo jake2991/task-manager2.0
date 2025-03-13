@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api';
 import Task from '../components/Task';
-import SideBar from "../components/SideBar";
+import NavBar from '../components/NavBar';
 import NewTaskForm from '../components/NewTaskForm';
 
 function Home() {
@@ -52,7 +52,7 @@ function Home() {
     return (
         <>
             <div>
-                {/* <SideBar /> */}
+                <NavBar/>
             </div>
             <NewTaskForm onSubmit={addTask} />
             <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-md">
